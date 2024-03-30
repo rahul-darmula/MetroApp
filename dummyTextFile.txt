@@ -1,0 +1,111 @@
+//int fare[][] = new int[27][27];
+		
+		//LinkedHashMap<Integer, String> map = new LinkedHashMap<Integer, String>();
+		/*
+		map.put(1, "Ameerpet");
+		map.put(2, "Assembly");
+		map.put(3, "Begumpet");
+		map.put(4, "Bharat Nagar");
+		map.put(5, "Chaitanyapuri");
+		map.put(6, "Chikkadpally");
+		map.put(7, "Dilsukhnagar");
+		map.put(8, "Balanagar");
+		map.put(9,	"Durgam Cheruvu");
+		map.put(10,	"Erragadda");
+		map.put(11,	"ESI Hospital");
+		map.put(12,	"Gandhi Bhavan");
+		map.put(13,	"Gandhi Hospital");
+		map.put(14,	"Habsiguda");
+		map.put(15,	"HITEC City");
+		map.put(16,	"Irrum Manzil");
+		map.put(17,	"JBS Parade Ground");
+		map.put(18,	"JNTU College");
+		map.put(19,	"Jubilee Hills Check Post");
+		map.put(20,	"Khairatabad");
+		map.put(21,	"KPHB Colony");
+		map.put(22,	"Kukatpally");
+		map.put(23,	"LB Nagar");
+		map.put(24,	"Lakdi-ka-pul");
+		map.put(25,	"Madhapur");
+		map.put(26,	"Malakpet");
+		map.put(27,	"Mettuguda");
+		map.put(28,	"MG Bus Station");
+		map.put(29,	"Miyapur");
+		map.put(30,	"Moosapet");
+		map.put(31,	"Musarambagh");
+		map.put(32,	"Musheerabad");
+		map.put(33,	"Nagole");
+		map.put(34,	"Nampally");
+		map.put(35,	"Narayanaguda");
+		map.put(36,	"New Market");
+		map.put(37,	"NGRI");
+		map.put(38,	"Osmania Medical College");
+		map.put(39,	"Parade Ground");
+		map.put(40,	"Paradise");
+		map.put(41,	"Peddamma Gudi");
+		map.put(42,	"Prakash Nagar");
+		map.put(43,	"Punjagutta");
+		map.put(44,	"Raidurg");
+		map.put(45,	"Rasoolpura");
+		map.put(46,	"Road No 5 Jubilee Hills");
+		map.put(47,	"R.T.C. X Roads");
+		map.put(48,	"S.R. Nagar");
+		map.put(49,	"Secunderabad East");
+		map.put(50,	"Secunderabad West");
+		map.put(51,	"Stadium");
+		map.put(52,	"Sultan Bazaar");
+		map.put(53,	"Tarnaka");
+		map.put(54,	"Taruni Madhura Nagar");
+		map.put(55,	"Uppal");
+		map.put(56,	"Victoria Memorial");
+		map.put(57,	"Yusufguda");	*/
+		//-----red
+		/*
+		fare[1][1]=10; fare[1][2]=10;fare[1][3]=15; fare[1][4]=25;
+		fare[1][5]=30; fare[1][6]=30; fare[1][7]=30; fare[1][8]=35; 
+		fare[1][9]=35; fare[1][10]=40; fare[1][11]=40; fare[1][12]=40;
+		fare[1][13]=40; fare[1][14]=45; fare[1][15]=45; fare[1][16]=45; 
+		fare[1][17]=45; fare[1][18]=50; fare[1][19]=50; fare[1][20]=50; 
+		fare[1][21]=50; fare[1][22]=55; fare[1][23]=55; fare[1][24]=55; 
+		fare[1][25]=60; fare[1][26]=60; */
+
+//----------------
+		//---blue
+		/*
+		map.put(28,	"Nagole");
+		map.put(29,	"Uppal");
+		map.put(30,	"Stadium");
+		map.put(31,	"NGRI");
+		map.put(32,	"Habsiguda");
+		map.put(33,	"Tarnaka");
+		map.put(34,	"Mettuguda");
+		map.put(35,	"Secunderabad East");
+		map.put(36,	"Parade Ground");
+		map.put(37,	"Paradise");
+		map.put(38,	"Rasoolpura");
+		map.put(39,	"Prakash Nagar");
+		map.put(40, "Begumpet");
+		//ameerpet
+		//madhra nagar
+		map.put(57,	"Yusufguda");
+		map.put(46,	"Road No 5 Jubilee Hills");
+		map.put(41,	"Peddamma Gudi");
+		map.put(25,	"Madhapur");
+		map.put(9,	"Durgam Cheruvu");
+		map.put(15,	"HITEC City");
+		map.put(44,	"Raidurg");
+		//--------------
+		//-----Green
+		//
+		map.put(6, "Chikkadpally");
+		map.put(13,	"Gandhi Hospital");
+		map.put(17,	"JBS Parade Ground");
+		map.put(19,	"Jubilee Hills Check Post");
+		map.put(32,	"Musheerabad");
+		map.put(35,	"Narayanaguda");
+		map.put(47,	"R.T.C. X Roads");
+		map.put(50,	"Secunderabad West");
+		map.put(52,	"Sultan Bazaar");
+		map.put(54,	"Taruni Madhura Nagar");
+		*/
+		
