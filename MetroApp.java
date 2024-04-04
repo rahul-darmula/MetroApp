@@ -1,7 +1,11 @@
 import java.util.Scanner;
 import java.util.*;
-
-
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;  
+import java.text.DateFormat; 
+import java.time.*; //
+import java.time.LocalDateTime; //
 class Login{
 	//public static void main(String[] args){
 	static int banner=1;
@@ -33,9 +37,18 @@ class Login{
 					isInvalidNum = false;
 					boolean invalidOtp = true;
 					//double randNum = Math.random(); //0.5522052449411765
-					int otp = (int)(Math.random()*10000); 
+					//int otp = (int)(Math.random()*10000); 
 					//0.5522052449411765 * 10000 --> 5522.052449411765 --> int->5522
-					
+					//int max = 999999;
+					//int min = 100000;
+					//int otp = (int) Math.round(Math.random() * (max - min + 1) + min);
+					Random random = new Random();
+
+					// Generate a random integer between 1000 (inclusive) and 10000 (exclusive)
+					int otp = random.nextInt(10000 - 1000) + 1000;
+
+				// Print the 4-digit number with leading zeros (if necessary)
+				//System.out.printf("%04d\n", randomNumber);
 					
 					System.out.println("Your OTP to login is: "+otp);
 					System.out.print("Enter OTP: ");
@@ -554,45 +567,167 @@ class CalFare
 }
 
 class Payment{
-	
 	static void paymentMethods(int amt){
+		System.out.println("-----Select an option to pay Rs "+amt+" -----");
 		System.out.println("1. UPI");
 		System.out.println("2. Credit Card");
-		
-	
+		//System.out.println("3. Back");
 		int op = Login.sc.nextInt();
 		switch(op){
 			case 1: UPI.payUsingUPI(amt);
 					break;
 			case 2: CC.payUsingCC(amt);
 				break;
-			//case 3: SC.payUsingSC(amt);
+			//case 3: TravelDetails.getTravelDetails();
 			//	break;
 			default: System.out.println("Invalid selection");
 				paymentMethods(amt);
 		}
 	}
 }
+//---------------------------------------------------
+interface TicketPayment{
+	public abstract void ticketBooking(int quantity);
+}
+abstract class Bank{
+	static int balance = 1000;
+	abstract boolean withdraw(int amt);
+	static void balanceEnquiry(){
+		System.out.println("Available balance: "+balance);
+	}
+}
+class PhonePay extends Bank implements TicketPayment{
+	static boolean paySucess = false;
+	boolean withdraw(int amt){//int unde
+		
+		if(amt <= Bank.balance){
+			System.out.println("Enter Pin: ");
+			int pin = Login.sc.nextInt();
+			Bank.balance -= amt;
+			paySucess = true;
+			//System.out.println("Transaction Sucessful"+Bank.balance);
+		}
+		return paySucess;
+		
+	}
+	public void ticketBooking(int amt){//int unde
+	
+		if(withdraw(amt)){
+			//System.out.println("Ticket Purchase Sucessfull Rs. "+Bank.balance);
+			
+		}
+		else{
+			System.out.println("Insufficient balance");
+		}
+	}
+	
+}
+class AmazonPay extends Bank implements TicketPayment{
+	int apb = 10;
+	static boolean paySucess = false;
+	boolean withdraw(int amt){//int unde
+		if(amt <= Bank.balance){
+			System.out.println("Enter Pin: ");
+			int pin = Login.sc.nextInt();
+			Bank.balance -= amt;
+			paySucess = true;
+			//System.out.println("Transaction Sucessful");
+		}
+		return paySucess;
+		
+	}
+	public void ticketBooking(int amt){//int unde
+		if(withdraw(amt)){
+			//System.out.println("Ticket Purchase Sucessfull Rs. "+Bank.balance);
+			
+		}
+		else{
+			System.out.println("Insufficient balance");
+		}
+	}
+}
+class TimeAndDate{
+	static Date date = new Date();
+     static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+     static  String str = formatter.format(date);//date
+      //System.out.println(str);
+	 static DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+	static	String strResult = dateFormat.format(new Date());
+	
+	//---
+	
+	//---
+	static void showTracactionTimeAndDate(){
+		
+      System.out.println("Transaction Date and Time: "+str+" "+strResult);
+	}
+	static boolean timeCrossed(){
+		LocalDateTime now = LocalDateTime.now();
+		int year = now.getYear();
+		int month = now.getMonthValue();
+		int day = now.getDayOfMonth();
+		int hour = now.getHour();
+		int minute = now.getMinute();
+		int second = now.getSecond();
+		LocalDateTime date1 = LocalDateTime.now();
+        LocalDateTime date2 = LocalDateTime.of(year, month, day, 22, 45, 00);
+		LocalDateTime date3 = LocalDateTime.of(year, month, day, 5, 30, 00);
+		System.out.println("Current time is: "+strResult);
+		if(date1.isAfter(date2)) {
+			
+            return true;
+        }
+		else if(date1.isBefore(date3)){
+			return true;
+		}
+		return false;
+
+	}
+}
+//---------------------------------------------------
 class UPI{
-	private long phNo;
-	private long otp = (int)Math.random()*10000;
+	/*private long phNo;
+	private int otp = (int)Math.random()*10000;
 	public void setPhNo(long phNo){
 		this.phNo=phNo;
 	}
-	public long getOTP(){
+	public int getOTP(){
 		return otp;
-	}
+	} */
 	static void payUsingUPI(int amt){
-		
+		System.out.println("-----Select UPI-----");
+		System.out.println("1. PhonePe\n2. Amazon Pay");
+		int op = Login.sc.nextInt();
+		if(op==1){
+			PhonePay pp = new PhonePay();
+			pp.ticketBooking(amt); //actually to recharge SC
+		}
+		else if(op==2){
+			AmazonPay ap = new AmazonPay();
+			ap.ticketBooking(amt); //actually to recharge SC
+		}
 	}
 }
 class CC{
+	/*
+	private long cardNo;
+	private int cvv, pin;
+	private String expiry;
+	*/
+	static boolean paySucess = false;
 	static void payUsingCC(int amt){
+		System.out.println("Enter Card No: ");
+		long cardNo = Login.sc.nextLong();
+		System.out.println("Enter CVV: ");
+		int cvv = Login.sc.nextInt();
+		System.out.println("Enter Expiry: ");
+		String expiry = Login.sc.next();
+		paySucess= true;
 		
 	}
 }
 class SC{
-	static void SCRecharge(){
+	static void SCRecharge(int metroCity){
 		System.out.println("\n-----Recharge Smart Card-----");
 		System.out.println("Please enter your 14 digit Metro Smart card number to recharge");
 		boolean invalidSCNum = true;
@@ -610,7 +745,18 @@ class SC{
 					int amt = Login.sc.nextInt();
 					if(Validation.validAmount(amt)){
 						inValidAmt=false;
-						System.out.println("Implement Payment methods");
+						System.out.println("1. Proceed to pay Rs "+amt+"\n2.Back");
+						if(Login.sc.nextInt()==1){
+							Payment.paymentMethods(amt);
+							if(PhonePay.paySucess || AmazonPay.paySucess||CC.paySucess){
+								System.out.println("Smart card Recharge of amount Rs "+amt+" sucessful");
+								TimeAndDate.showTracactionTimeAndDate();
+								return;
+							}
+						}
+						else{
+							TravelOpMenu.chooseOpToTravel(metroCity);
+						}
 					}
 					else{
 						System.out.println("Invalid Amount....");
@@ -625,33 +771,7 @@ class SC{
 	}
 }
 
-class Validation{
-		static boolean checkPhoneNo(long mobNum){
-			String num = mobNum+"";
-			if(num.length()<10 || num.length()>10){
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
-		static boolean checkSCNum(long scNum){
-			String num = scNum+"";
-			if(num.length()==14)
-				return true;
-			else
-				return false;
-		}
-		static boolean validAmount(int amt){
-			if(amt%50==0 && amt>=100)	return true;
-			else	return false;
-		}
-		static boolean isValidPassCount(int passCount){
-			if(passCount>=1 && passCount<=6) return true;
-			else return false;
-		}
-	
-}
+
 class TravelOpMenu{
 	static boolean isSingleJour = true;
 	static void chooseOpToTravel(int metroCity){
@@ -660,7 +780,7 @@ class TravelOpMenu{
 		System.out.print("Enter option(1-3): ");
 		int op = Login.sc.nextInt();
 		if(op==2){
-			SC.SCRecharge();
+			SC.SCRecharge(metroCity);
 		}
 		else if(op==1){
 			System.out.println("-----Buy Metro QR Ticket-----");
@@ -682,8 +802,12 @@ class TravelOpMenu{
 			}
 				
 		}
-		else{
+		else if(op==3){
 			MetroApp.selectMetroCity();
+		}
+		else{
+			System.out.println("Invalid selection..Please select again");
+			chooseOpToTravel(metroCity);
 		}
 	}
 	static void askJourneyType(int metroCity){
@@ -715,6 +839,7 @@ class TravelOpMenu{
 	}
 }
 class TravelDetails{
+	static String metro[] = {"Bengaluru Metro", "Delhi Metro", "Hyderabad Metro", "Mumbai Metro"};
 	static int getPassCount(int metroCity){
 		System.out.print("Enter Passenger count: ");
 		int passCount = Login.sc.nextInt();
@@ -723,9 +848,8 @@ class TravelDetails{
 			return getPassCount(metroCity);
 		}
 		if(Validation.isValidPassCount(passCount)==false){
-			String metro[] = new String[5];
-			metro[0]="Bengaluru Metro"; metro[1]="Chennai Metro"; metro[2]="Delhi Metro"; metro[3]="Hyderabad Metro";
-			metro[4]="Mumbai Metro";
+			//String metro[] = new String[5];
+			
 			System.out.println("Maximum 6 QR tickets are allowed per user by "+metro[metroCity-1]);
 			return getPassCount(metroCity);
 		}
@@ -750,12 +874,23 @@ class TravelDetails{
 			System.out.println("\t"+eVal+" <---- "+sVal);
 		}
 	}
+	static void paymentFwdBwd(){
+		
+	}
 	static void getTravelDetails(LinkedHashMap<Integer, String> map, int metroCity, boolean isSingleJour){
 		boolean is = true;
 		int x=1;
 		while(is){
 			System.out.println();
-			//enter b/w 1to27
+			//enter b/w 1to27f
+			System.out.println("1.Proceed\n2.Back");
+			System.out.print("Enter selection: ");
+			int sel = Login.sc.nextInt();
+			if(sel==2) TravelOpMenu.chooseOpToTravel(metroCity);
+			else if(sel!=1 && sel!=2){
+				System.out.println("Invalid Input. Please select again");
+				getTravelDetails(map, metroCity, isSingleJour);
+			}
 			System.out.println("Enter values in range 1 to "+map.size());
 			System.out.print("Choose start Location: ");
 			int s = Login.sc.nextInt();
@@ -790,8 +925,32 @@ class TravelDetails{
 					System.out.println("Select\t1. Proceed to Pay Rs: "+amt+"\n\t2. Back(To select stations)");
 					int op = Login.sc.nextInt();
 					if(op==1){
-						//x=0;
-						Payment.paymentMethods(amt);
+						x=0;
+						if(TimeAndDate.timeCrossed()){
+							System.out.println(metro[metroCity-1]+" allows QR ticket \npurchase from 5:30 AM to 10:45 PM (IST)\n on all days. Please visit us during the eligible time to purchase the QR ticket.");
+							return;
+						}
+						else{
+							Payment.paymentMethods(amt);
+							if(CC.paySucess || AmazonPay.paySucess || PhonePay.paySucess){
+								System.out.println("-----Ticket purchase Sucessfull Rs "+amt+" -----");
+								TimeAndDate.showTracactionTimeAndDate();
+								System.out.println();
+								if(isSingleJour){
+									System.out.println("Single Journey");
+									System.out.println(TravelDetails.metro[metroCity-1]);
+									printData(s, e, isSingleJour, map);
+								}
+								else{
+									System.out.println("Return Journey");
+									printData(s, e, isSingleJour, map);
+								}
+								System.out.println("Valid till "+TimeAndDate.str+" 11:00 PM");
+								return;
+							}
+						}
+						//if payment is sucessfull show that ticket purchase sucessfull
+						//print ticket booked time and sorce, dest, (if possibel QR code)
 					}
 					else{
 						//x=1; //-------
@@ -806,4 +965,32 @@ class TravelDetails{
 			if(x==0)	is=false;
 		}
 	}
+}
+
+class Validation{
+		static boolean checkPhoneNo(long mobNum){
+			String num = mobNum+"";
+			if(num.length()<10 || num.length()>10){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		static boolean checkSCNum(long scNum){
+			String num = scNum+"";
+			if(num.length()==14)
+				return true;
+			else
+				return false;
+		}
+		static boolean validAmount(int amt){
+			if(amt%50==0 && amt>=100)	return true;
+			else	return false;
+		}
+		static boolean isValidPassCount(int passCount){
+			if(passCount>=1 && passCount<=6) return true;
+			else return false;
+		}
+	
 }
