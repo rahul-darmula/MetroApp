@@ -6,6 +6,7 @@ import java.util.Date;
 import java.text.DateFormat; 
 import java.time.*; //
 import java.time.LocalDateTime; //
+import java.util.regex.*;
 class Login{
 	//public static void main(String[] args){
 	static int banner=1;
@@ -17,6 +18,7 @@ class Login{
 		//int x=1;
 		//while(isInvalid){
 			if(banner==1){
+				System.out.println("\n\t\t***** WELCOME TO METRO TICKET BOOKING APP *****");
 				System.out.println("-----------------------------------");
 				System.out.println("             Login                 ");
 				System.out.println("-----------------------------------");
@@ -24,12 +26,10 @@ class Login{
 			}
 			
 				System.out.print("Enter Mobile Number: +91 ");
-
-				long mobNum = sc.nextLong();
 				
-				String num = mobNum+"";
-				//if(num.length()<10 || num.length()>10){
-				if(Validation.checkPhoneNo(mobNum)){
+				String mobNum = sc.next();
+
+				if(Validation.checkPhoneNo(mobNum)==false){
 					System.out.println("Invalid Mobile number please re-enter.");
 					isInvalidNum = true;
 				}
@@ -51,10 +51,11 @@ class Login{
 				//System.out.printf("%04d\n", randomNumber);
 					
 					System.out.println("Your OTP to login is: "+otp);
-					System.out.print("Enter OTP: ");
+					
 					while(invalidOtp){
-						int enteredOtp = sc.nextInt();
-						if(otp == enteredOtp){
+						System.out.print("Enter OTP: ");
+						String enteredOtp = sc.next();
+						if(enteredOtp.equals(otp+"")){
 							invalidOtp = false;
 							return true;
 							
@@ -91,31 +92,32 @@ class MetroApp{
 			System.out.println("5. Mumbai Metro");
 			System.out.println("6. Exit");
 			System.out.print("Select your option: ");
-			int op = Login.sc.nextInt();
+
+			char op = Login.sc.next().charAt(0);
 			switch(op){
-				case 1:  
-					TravelOpMenu.chooseOpToTravel(op);
+				case '1':  
+					TravelOpMenu.chooseOpToTravel(op-48);
 					
 					InvalidOp=false;
 					break;
-				case 2: 
-					TravelOpMenu.chooseOpToTravel(op);
+				case '2': 
+					TravelOpMenu.chooseOpToTravel(op-48);
 					InvalidOp=false;
 					break;
-				case 3: 
-					TravelOpMenu.chooseOpToTravel(op);
+				case '3': 
+					TravelOpMenu.chooseOpToTravel(op-48);
 					InvalidOp=false;
 					break;
-				case 4: 
-					TravelOpMenu.chooseOpToTravel(op);
+				case '4': 
+					TravelOpMenu.chooseOpToTravel(op-48);
 					//Hyderabad.showHyd();
 					InvalidOp=false;
 					break;
-				case 5: 
-					TravelOpMenu.chooseOpToTravel(op);
+				case '5': 
+					TravelOpMenu.chooseOpToTravel(op-48);
 					InvalidOp=false;
 					break;
-				case 6:	
+				case '6':	
 					System.out.println("Thank You for Visiting Metro App");
 					System.exit(0);
 				default: System.out.println("Invalid selection please select again");
@@ -160,7 +162,7 @@ class Hyderabad{
 		map.put(26,	"Victoria Memorial");
 		map.put(27,	"LB Nagar");
 
-		System.out.println("-----All Stations-----");
+		System.out.println("----- "+TravelDetails.metro[metroCity-1] +" Stations-----");
 
 		System.out.printf("|%-2s| %-28s |%-2s| %-28s |", "S.No", "Station Name", "S.No", "Station Name");
 		
@@ -213,7 +215,7 @@ class Bengaluru{
 		map.put(20,	"Baiyyapanahalli");
 		
 
-		System.out.println("-----All Stations-----");
+		System.out.println("----- "+TravelDetails.metro[metroCity-1] +" Stations-----");
 
 		System.out.printf("|%-2s| %-45s |%-2s| %-45s |", "S.No", "Station Name", "S.No", "Station Name");
 		
@@ -259,7 +261,7 @@ class Chennai{
 		map.put(15,	"Egmore Metro");
 		map.put(16, "Central Metro");
 
-		System.out.println("-----All Stations-----");
+		System.out.println("----- "+TravelDetails.metro[metroCity-1] +" Stations-----");
 
 		System.out.printf("|%-2s| %-28s |%-2s| %-28s |", "S.No", "Station Name", "S.No", "Station Name");
 		
@@ -318,7 +320,7 @@ class Delhi{
 		map.put(29,	"Rithala");
 		
 
-		System.out.println("-----All Stations-----");
+		System.out.println("----- "+TravelDetails.metro[metroCity-1] +" Stations-----");
 
 		System.out.printf("|%-2s| %-28s |%-2s| %-28s |", "S.No", "Station Name", "S.No", "Station Name");
 		
@@ -359,7 +361,7 @@ class Mumbai{
 		map.put(11, "Jagruthi Nagal");
 		map.put(12,	"Ghatkopar");
 
-		System.out.println("-----All Stations-----");
+		System.out.println("----- "+TravelDetails.metro[metroCity-1] +" Stations-----");
 
 		System.out.printf("|%-2s| %-28s |%-2s| %-28s |", "S.No", "Station Name", "S.No", "Station Name");
 		
@@ -473,6 +475,7 @@ class CalFare
 		return amt;
 	}
 	static int calDelhiFareWRTDist(int s, int e){
+		//.....................
 		delDistArr[0]=0.0; delDistArr[1]=1.0; delDistArr[2]=2.5; delDistArr[3]=3.2;
 		delDistArr[4]=4.5; delDistArr[5]=5.7; delDistArr[6]=6.9; delDistArr[7]=8.2;
 		delDistArr[8]=9.4; delDistArr[9]=10.3; delDistArr[10]=11.4; delDistArr[11]=12.4;
@@ -487,12 +490,12 @@ class CalFare
 		double dist = 0;
 		int amt = 0;
 		if(s<e){
-			for(int i=s-1; i<e-1; i++){
+			for(int i=s; i<e; i++){
 				dist+=delDistArr[i];
 			}
 		}
 		else{
-			for(int i=e-1; i<s-1; i++){
+			for(int i=e; i<s; i++){
 				dist+=delDistArr[i];
 			}
 		}
@@ -567,21 +570,21 @@ class CalFare
 }
 
 class Payment{
-	static void paymentMethods(int amt){
+	static void paymentMethods(int amt, int metroCity){
 		System.out.println("-----Select an option to pay Rs "+amt+" -----");
 		System.out.println("1. UPI");
 		System.out.println("2. Credit Card");
-		//System.out.println("3. Back");
-		int op = Login.sc.nextInt();
+		System.out.println("3. Back");
+		char op = Login.sc.next().charAt(0);
 		switch(op){
-			case 1: UPI.payUsingUPI(amt);
+			case '1': UPI.payUsingUPI(amt, metroCity);
 					break;
-			case 2: CC.payUsingCC(amt);
+			case '2': CC.payUsingCC(amt);
 				break;
-			//case 3: TravelDetails.getTravelDetails();
-			//	break;
+			case '3': TravelOpMenu.chooseOpToTravel(metroCity);;
+				break;
 			default: System.out.println("Invalid selection");
-				paymentMethods(amt);
+				paymentMethods(amt, metroCity);
 		}
 	}
 }
@@ -601,8 +604,8 @@ class PhonePay extends Bank implements TicketPayment{
 	boolean withdraw(int amt){//int unde
 		
 		if(amt <= Bank.balance){
-			System.out.println("Enter Pin: ");
-			int pin = Login.sc.nextInt();
+			
+			
 			Bank.balance -= amt;
 			paySucess = true;
 			//System.out.println("Transaction Sucessful"+Bank.balance);
@@ -611,39 +614,101 @@ class PhonePay extends Bank implements TicketPayment{
 		
 	}
 	public void ticketBooking(int amt){//int unde
-	
-		if(withdraw(amt)){
-			//System.out.println("Ticket Purchase Sucessfull Rs. "+Bank.balance);
-			
+		boolean isValidPin = false;
+		do{
+			System.out.print("Enter UPI Pin: ");
+			String pin = Login.sc.next(); //validation pending //6 digits
+			if(pin.matches("[0-9]{6}")){
+				isValidPin = true;
+				if(! withdraw(amt)){//if payment not sucess
+					System.out.println("Insufficient balance");
+				}
+			}
+			else{	
+				isValidPin = false;
+				System.out.println("!!!!Invlaid Pin!!!!");
+			}
 		}
-		else{
-			System.out.println("Insufficient balance");
-		}
+		while(isValidPin == false);
 	}
 	
 }
 class AmazonPay extends Bank implements TicketPayment{
-	int apb = 10;
+	int apb = 3;
 	static boolean paySucess = false;
 	boolean withdraw(int amt){//int unde
-		if(amt <= Bank.balance){
-			System.out.println("Enter Pin: ");
-			int pin = Login.sc.nextInt();
-			Bank.balance -= amt;
-			paySucess = true;
-			//System.out.println("Transaction Sucessful");
+		System.out.println("Select a payment method:");
+		System.out.println("1. Amazon Pay UPI");
+		System.out.println("2. Amazon Pay Balance: Rs. "+apb);
+		System.out.println("3. Select both");
+		char op = Login.sc.next().charAt(0);
+		boolean isValidPin = false;
+		switch(op){
+			case '1': 
+				
+				do{
+					System.out.print("Enter UPI Pin: ");
+					String pin = Login.sc.next(); //validation pending //6 digits
+					if(pin.matches("[0-9]{6}")){
+						isValidPin = true;
+						if(amt <= Bank.balance){
+							Bank.balance -= amt;
+							paySucess = true;
+						}
+					}
+					else{	
+						isValidPin = false;
+						System.out.println("!!!!Invlaid Pin!!!!");
+					}
+				}
+				while(isValidPin == false);
+				
+			break;
+			case '2':
+				if(apb <= amt){
+					apb -= amt;
+					paySucess = true;
+				}
+			break;
+			case '3':
+				//boolean isValidPin = false;
+				do{
+					System.out.print("Enter UPI Pin: ");
+					String pin = Login.sc.next(); //validation pending //6 digits
+					if(pin.matches("[0-9]{6}")){
+						isValidPin = true;
+						int newAmt = amt-apb;
+						if(amt<=apb){
+							apb = apb-amt;
+							paySucess = true;
+						}
+						else if(newAmt<=Bank.balance){
+							apb=0;
+							Bank.balance -= newAmt;
+							paySucess = true;
+							
+						}
+					}
+					else{	
+						isValidPin = false;
+						System.out.println("!!!!Invlaid Pin!!!!");
+					}
+				}
+				while(isValidPin == false);
+				
+			break;
+			default:
+				System.out.println("Invlaid selection");
+				withdraw(amt);
 		}
+		System.out.println("APB: "+apb +" Bank bal: "+Bank.balance);
 		return paySucess;
 		
 	}
 	public void ticketBooking(int amt){//int unde
-		if(withdraw(amt)){
-			//System.out.println("Ticket Purchase Sucessfull Rs. "+Bank.balance);
-			
-		}
-		else{
+		if(! withdraw(amt)){//if payment not sucess
 			System.out.println("Insufficient balance");
-		}
+		}	
 	}
 }
 class TimeAndDate{
@@ -672,7 +737,7 @@ class TimeAndDate{
 		LocalDateTime date1 = LocalDateTime.now();
         LocalDateTime date2 = LocalDateTime.of(year, month, day, 22, 45, 00);
 		LocalDateTime date3 = LocalDateTime.of(year, month, day, 5, 30, 00);
-		System.out.println("Current time is: "+strResult);
+		//System.out.println("Current time is: "+strResult);
 		if(date1.isAfter(date2)) {
 			
             return true;
@@ -694,17 +759,24 @@ class UPI{
 	public int getOTP(){
 		return otp;
 	} */
-	static void payUsingUPI(int amt){
+	static void payUsingUPI(int amt, int metroCity){
 		System.out.println("-----Select UPI-----");
-		System.out.println("1. PhonePe\n2. Amazon Pay");
-		int op = Login.sc.nextInt();
-		if(op==1){
+		System.out.println("1. PhonePe\n2. Amazon Pay\n3. Back");
+		System.out.print("Enter selection: ");
+		char op = Login.sc.next().charAt(0);
+		if(op=='1'){
 			PhonePay pp = new PhonePay();
 			pp.ticketBooking(amt); //actually to recharge SC
 		}
-		else if(op==2){
+		else if(op=='2'){
 			AmazonPay ap = new AmazonPay();
 			ap.ticketBooking(amt); //actually to recharge SC
+		}
+		else if(op=='3'){
+			Payment.paymentMethods(amt, metroCity);
+		}
+		else{
+			payUsingUPI(amt, metroCity);
 		}
 	}
 }
@@ -716,13 +788,69 @@ class CC{
 	*/
 	static boolean paySucess = false;
 	static void payUsingCC(int amt){
-		System.out.println("Enter Card No: ");
-		long cardNo = Login.sc.nextLong();
-		System.out.println("Enter CVV: ");
-		int cvv = Login.sc.nextInt();
-		System.out.println("Enter Expiry: ");
-		String expiry = Login.sc.next();
-		paySucess= true;
+		try{
+			System.out.print("Enter Card No: ");
+			String cardNo = Login.sc.next(); //16
+			System.out.print("Enter CVV: ");
+			String cvv = Login.sc.next(); //3
+			System.out.print("Enter Expiry date: ");
+		
+			String expiry = Login.sc.next(); //10/27 expiry
+			boolean isValidCardNo=Validation.isValidCCNo(cardNo);
+			boolean isValidCVV=Validation.isValidCVV(cvv);
+			boolean isValidExpiry= Validation.isValidExpiryDate(expiry);
+			if(!isValidCardNo && !isValidCVV && !isValidExpiry){
+				System.out.println("\t!!!!Invalid Card deatails!!!!");
+				CC.payUsingCC(amt);
+			}
+			else{
+				if(isValidCardNo){
+				if(isValidCVV){
+					if(isValidExpiry){
+						Random random = new Random();
+						// Generate a random integer between 1000 (inclusive) and 10000 (exclusive)
+						int otp = random.nextInt(10000 - 1000) + 1000;
+						System.out.println("Your OTP to complete transaction is: "+otp);
+						//boolean isValidOTP = false;
+						//do{
+							System.out.print("Enter OTP: ");
+							String eotp = Login.sc.next();
+							if(eotp.equals(otp+"")){
+								//isValidOTP= true;
+								paySucess= true;
+							}
+							else{
+								System.out.println("\t------	Invalid OTP    ------");
+								System.out.println("\t\t!!!! Transaction failed !!!!");
+								System.exit(0);
+							}
+						//}
+						//while(isValidOTP == false);
+					}
+					else{
+						System.out.println("\t!!!!Invalid Expiry Date!!!!");
+						CC.payUsingCC(amt);
+					}
+				}
+				else{
+					System.out.println("\t!!!!Invalid CVV!!!!");
+					CC.payUsingCC(amt);
+				}
+			}
+			else{
+				System.out.println("\t!!!!Invalid card No!!!!");
+				CC.payUsingCC(amt);
+			}
+			}
+			
+		}
+		catch(Exception e){
+			CC.payUsingCC(amt);
+		}
+		
+		//OTP
+		//the transcation sucess.
+		
 		
 	}
 }
@@ -746,12 +874,14 @@ class SC{
 					if(Validation.validAmount(amt)){
 						inValidAmt=false;
 						System.out.println("1. Proceed to pay Rs "+amt+"\n2.Back");
-						if(Login.sc.nextInt()==1){
-							Payment.paymentMethods(amt);
+						System.out.print("Enter selection: ");
+						int sel = Login.sc.nextInt();
+						if(sel==1){
+							Payment.paymentMethods(amt, metroCity);
 							if(PhonePay.paySucess || AmazonPay.paySucess||CC.paySucess){
 								System.out.println("Smart card Recharge of amount Rs "+amt+" sucessful");
 								TimeAndDate.showTracactionTimeAndDate();
-								return;
+								System.exit(0);
 							}
 						}
 						else{
@@ -839,7 +969,7 @@ class TravelOpMenu{
 	}
 }
 class TravelDetails{
-	static String metro[] = {"Bengaluru Metro", "Delhi Metro", "Hyderabad Metro", "Mumbai Metro"};
+	static String metro[] = {"Bengaluru Metro", "Chennai", "Delhi Metro", "Hyderabad Metro", "Mumbai Metro"};
 	static int getPassCount(int metroCity){
 		System.out.print("Enter Passenger count: ");
 		int passCount = Login.sc.nextInt();
@@ -880,10 +1010,8 @@ class TravelDetails{
 	static void getTravelDetails(LinkedHashMap<Integer, String> map, int metroCity, boolean isSingleJour){
 		boolean is = true;
 		int x=1;
-		while(is){
-			System.out.println();
-			//enter b/w 1to27f
-			System.out.println("1.Proceed\n2.Back");
+		System.out.println();
+		System.out.println("Select:\t1.Proceed to select stations\n\t2.Back");
 			System.out.print("Enter selection: ");
 			int sel = Login.sc.nextInt();
 			if(sel==2) TravelOpMenu.chooseOpToTravel(metroCity);
@@ -891,6 +1019,10 @@ class TravelDetails{
 				System.out.println("Invalid Input. Please select again");
 				getTravelDetails(map, metroCity, isSingleJour);
 			}
+		while(is){
+			
+			//enter b/w 1to27f
+			
 			System.out.println("Enter values in range 1 to "+map.size());
 			System.out.print("Choose start Location: ");
 			int s = Login.sc.nextInt();
@@ -923,6 +1055,7 @@ class TravelDetails{
 					System.out.println("Total Amount: "+amt);
 					System.out.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
 					System.out.println("Select\t1. Proceed to Pay Rs: "+amt+"\n\t2. Back(To select stations)");
+					System.out.print("Enter selection: ");
 					int op = Login.sc.nextInt();
 					if(op==1){
 						x=0;
@@ -931,24 +1064,31 @@ class TravelDetails{
 							return;
 						}
 						else{
-							Payment.paymentMethods(amt);
+							Payment.paymentMethods(amt, metroCity);
 							if(CC.paySucess || AmazonPay.paySucess || PhonePay.paySucess){
 								System.out.println("-----Ticket purchase Sucessfull Rs "+amt+" -----");
 								TimeAndDate.showTracactionTimeAndDate();
 								System.out.println();
+								System.out.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+								System.out.println("\t@@@@@ "+TravelDetails.metro[metroCity-1]+" @@@@@");
 								if(isSingleJour){
-									System.out.println("Single Journey");
-									System.out.println(TravelDetails.metro[metroCity-1]);
+									System.out.println("Journey type: Single Journey");
+									
 									printData(s, e, isSingleJour, map);
 								}
 								else{
-									System.out.println("Return Journey");
+									System.out.println("Journey type: Return Journey");
 									printData(s, e, isSingleJour, map);
 								}
+								System.out.println("Passengers: "+passCount);
+								System.out.println("Fare: "+amt);
 								System.out.println("Valid till "+TimeAndDate.str+" 11:00 PM");
-								return;
+								System.out.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+								x=0;
+								System.exit(0);
 							}
 						}
+						
 						//if payment is sucessfull show that ticket purchase sucessfull
 						//print ticket booked time and sorce, dest, (if possibel QR code)
 					}
@@ -968,15 +1108,13 @@ class TravelDetails{
 }
 
 class Validation{
-		static boolean checkPhoneNo(long mobNum){
-			String num = mobNum+"";
-			if(num.length()<10 || num.length()>10){
-				return true;
-			}
-			else{
-				return false;
-			}
+		static boolean checkPhoneNo(String mobNum){
+			//Pattern p = Pattern.compile("(0|91)?[6-9][0-9]{9}");
+			Pattern p = Pattern.compile("[6-9][0-9]{9}");
+			Matcher m = p.matcher(mobNum);
+			return (m.find() && m.group().equals(mobNum));
 		}
+		
 		static boolean checkSCNum(long scNum){
 			String num = scNum+"";
 			if(num.length()==14)
@@ -992,5 +1130,55 @@ class Validation{
 			if(passCount>=1 && passCount<=6) return true;
 			else return false;
 		}
-	
+		static boolean isValidCVV(String cvv){
+			boolean isValid = true;
+			if(cvv.matches("[0-9]{3}")){
+				isValid = true;
+			}
+			else isValid = false;
+			return isValid;
+		}
+		static boolean isValidCCNo(String cardNo){
+			if(cardNo.matches("[0-9]{16}"))
+				return true;
+			else return false;
+		}
+		static boolean isValidExpiryDate(String expiry){
+			boolean isValid = true;//dummy
+			LocalDateTime now = LocalDateTime.now();
+			int year = now.getYear();
+			int month = now.getMonthValue();
+			String dummy = year+"";
+			int n = dummy.length();
+			int maniputlatedYear = Integer.parseInt(dummy.charAt(n-2)+""+dummy.charAt(n-1));
+			try{
+				if(expiry.matches("(?:0[1-9]|1[0-2])/[0-9]{2}")){
+					String expArr[] = expiry.split("/");
+					int expMonth = Integer.parseInt(expArr[0]);
+					int expYear = Integer.parseInt(expArr[1]);
+					//System.out.println(expMonth+" "+expYear);
+					if(expYear > maniputlatedYear){
+							System.out.println("valid");
+							isValid = true;
+					}
+					else if(expYear >= maniputlatedYear && expMonth>=month){
+							System.out.println("valid");
+							isValid = true;
+					}
+					else{
+						System.out.println("Invalid");
+						isValid = false;
+					}
+				}
+				else{
+					System.out.println("InvalidD");
+					isValid = false;
+				}
+			}
+			catch(Exception E){
+				isValid = false;
+			}
+			return isValid;
+
+		}
 }
